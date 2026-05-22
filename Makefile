@@ -606,6 +606,24 @@ endif
 
 KBUILD_CFLAGS += $(call cc-option,-Wno-format-nonliteral)
 
+# GCC 14 promotes these to errors; vendor u-boot was written under earlier GCCs.
+KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
+KBUILD_CFLAGS += $(call cc-disable-warning, enum-int-mismatch)
+KBUILD_CFLAGS += $(call cc-disable-warning, dangling-pointer)
+KBUILD_CFLAGS += $(call cc-disable-warning, use-after-free)
+KBUILD_CFLAGS += $(call cc-disable-warning, array-bounds)
+KBUILD_CFLAGS += $(call cc-disable-warning, stringop-overflow)
+KBUILD_CFLAGS += $(call cc-disable-warning, stringop-truncation)
+KBUILD_CFLAGS += $(call cc-disable-warning, maybe-uninitialized)
+KBUILD_CFLAGS += $(call cc-disable-warning, unused-variable)
+KBUILD_CFLAGS += $(call cc-disable-warning, unused-but-set-variable)
+KBUILD_CFLAGS += $(call cc-disable-warning, unused-function)
+KBUILD_CFLAGS += $(call cc-disable-warning, unused-const-variable)
+KBUILD_CFLAGS += $(call cc-disable-warning, implicit-fallthrough)
+KBUILD_CFLAGS += $(call cc-disable-warning, restrict)
+KBUILD_CFLAGS += $(call cc-disable-warning, missing-attributes)
+KBUILD_CFLAGS += $(call cc-disable-warning, packed-not-aligned)
+
 # turn jbsr into jsr for m68k
 ifeq ($(ARCH),m68k)
 ifeq ($(findstring 3.4,$(shell $(CC) --version)),3.4)
