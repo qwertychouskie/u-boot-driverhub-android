@@ -835,6 +835,15 @@ ifneq ($(CONFIG_BUILD_TARGET),)
 ALL-y += $(CONFIG_BUILD_TARGET:"%"=%)
 endif
 
+# Driver Hub: vendor u-boot 2017 has the SPL_FIT_GENERATOR + u-boot.itb plumbing
+# but doesn't add the itb to ALL-y by default. Wire it up so `make` produces
+# u-boot.itb directly (Buildroot copies it to images/).
+ifneq ($(CONFIG_SPL_FIT_GENERATOR),"")
+ifdef CONFIG_SPL_LOAD_FIT
+ALL-y += u-boot.itb
+endif
+endif
+
 LDFLAGS_u-boot += $(LDFLAGS_FINAL)
 
 # Avoid 'Not enough room for program headers' error on binutils 2.28 onwards.
