@@ -844,6 +844,17 @@ ALL-y += u-boot.itb
 endif
 endif
 
+# Driver Hub: idbloader.img = mkimage -T rksd of (rkbin DDR init blob :: SPL).
+# This is the blob that goes at sector 64 of the eMMC and starts the boot chain.
+DRIVERHUB_DDR_BLOB := board/rockchip/px30/blobs/px30_ddr_333MHz_v1.10.bin
+ifneq ($(wildcard $(srctree)/$(DRIVERHUB_DDR_BLOB)),)
+ALL-y += idbloader.img
+
+idbloader.img: spl/u-boot-spl.bin u-boot.itb
+	$(Q)$(objtree)/tools/mkimage -n px30 -T rksd \
+	    -d $(srctree)/$(DRIVERHUB_DDR_BLOB):spl/u-boot-spl.bin $@
+endif
+
 LDFLAGS_u-boot += $(LDFLAGS_FINAL)
 
 # Avoid 'Not enough room for program headers' error on binutils 2.28 onwards.
