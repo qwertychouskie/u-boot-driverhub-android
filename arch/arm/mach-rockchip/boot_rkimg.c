@@ -489,8 +489,8 @@ static int rockchip_read_distro_dtb(void *fdt_addr)
 
 int rockchip_read_dtb_file(void *fdt_addr)
 {
-	int hash_size;
-	char *hash;
+	int hash_size __maybe_unused;
+	char *hash __maybe_unused;
 	u32 size;
 	int ret = -1;
 
