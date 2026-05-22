@@ -1034,8 +1034,12 @@ U_BOOT_ITS = $(subst ",,$(CONFIG_SPL_FIT_SOURCE))
 else
 ifneq ($(CONFIG_SPL_FIT_GENERATOR),"")
 U_BOOT_ITS := u-boot.its
-$(U_BOOT_ITS): FORCE
+# make_fit_atf.py reads u-boot ELF to extract the PT_LOAD paddr, and bl31.elf
+# (passed in $(BL31) by Buildroot) for the ATF segments. Pass both explicitly
+# and require them as deps so the .its target doesn't race with u-boot/BL31.
+$(U_BOOT_ITS): u-boot $(BL31) FORCE
 	$(srctree)/$(CONFIG_SPL_FIT_GENERATOR) \
+	-u u-boot -b $(BL31) \
 	$(patsubst %,arch/$(ARCH)/dts/%.dtb,$(subst ",,$(CONFIG_OF_LIST))) > $@
 endif
 endif
