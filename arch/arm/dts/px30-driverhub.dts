@@ -19,15 +19,23 @@
 	model = "REV Robotics FIRST Driver Hub";
 	compatible = "rev,driverhub", "vamrs,rds-px30", "rockchip,px30";
 
-	/* bootargs come from extlinux.conf / FIT — keep chosen empty here */
+	/*
+	 * bootargs come from extlinux.conf / FIT — keep chosen empty here.
+	 * stdout-path overrides the &uart2 default from px30-u-boot.dtsi so
+	 * SPL / u-boot proper / mainline kernel all print to uart1, which is
+	 * the only UART broken out to physical debug pads on the Driver Hub.
+	 */
     chosen: chosen {
+        stdout-path = &uart1;
     };
 
+    /*
+     * fiq-debugger is a Rockchip BSP-only driver; with mainline kernel and
+     * u-boot it does nothing but keeps &uart1 disabled. Turn it off so the
+     * UART can be driven as a normal ttyS1.
+     */
     fiq-debugger{
-        status = "okay";
-        rockchip,serial-id = <1>;
-        pinctrl-names = "default";
-        pinctrl-0 = <&uart1_xfer>;
+        status = "disabled";
     };
 
 	backlight: backlight {
@@ -863,7 +871,8 @@
 };
 
 &uart1 {
-	status = "disabled";
+	/* Debug UART pads. fiq-debugger is disabled (mainline doesn't have it). */
+	status = "okay";
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart1_xfer>;
 };
