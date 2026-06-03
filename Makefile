@@ -846,7 +846,7 @@ endif
 
 # Driver Hub: idbloader.img = mkimage -T rksd of (rkbin DDR init blob :: SPL).
 # This is the blob that goes at sector 64 of the eMMC and starts the boot chain.
-DRIVERHUB_DDR_BLOB := board/rockchip/px30/blobs/px30_ddr_333MHz_v1.10.bin
+DRIVERHUB_DDR_BLOB := board/rockchip/px30/blobs/px30_ddr_333MHz_uart1_v1.16.bin
 ifneq ($(wildcard $(srctree)/$(DRIVERHUB_DDR_BLOB)),)
 ALL-y += idbloader.img
 
