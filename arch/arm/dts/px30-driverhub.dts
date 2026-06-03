@@ -871,7 +871,12 @@
 };
 
 &uart1 {
-	/* Debug UART pads. fiq-debugger is disabled (mainline doesn't have it). */
+	/* Debug UART pads. fiq-debugger is disabled (mainline doesn't have it).
+	 * u-boot,dm-pre-reloc keeps this node in SPL's fdtgrep-filtered DTB so
+	 * SPL can probe a serial driver for early prints.
+	 */
+	u-boot,dm-pre-reloc;
+	clock-frequency = <24000000>;
 	status = "okay";
 	pinctrl-names = "default";
 	pinctrl-0 = <&uart1_xfer>;
