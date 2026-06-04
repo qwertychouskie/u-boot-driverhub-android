@@ -6,7 +6,11 @@ CONFIG_SYS_MALLOC_F_LEN=0x2000
 CONFIG_ROCKCHIP_PX30=y
 CONFIG_SPL_FIT_GENERATOR="arch/arm/mach-rockchip/make_fit_atf.py"
 CONFIG_ROCKCHIP_SPL_RESERVE_IRAM=0x0
-# CONFIG_RKIMG_BOOTLOADER is not set
+# Required by CONFIG_USING_KERNEL_DTB. Just a compile-time enabler ("compatible
+# configure for code compilation" per its Kconfig help) — doesn't change the
+# extlinux/distro_bootcmd path we actually take. CONFIG_ANDROID_BOOTLOADER and
+# the vendor-partition feature stay disabled separately.
+CONFIG_RKIMG_BOOTLOADER=y
 # CONFIG_ROCKCHIP_VENDOR_PARTITION is not set
 CONFIG_TARGET_EVB_PX30=y
 CONFIG_SPL_DRIVERS_MISC_SUPPORT=y
