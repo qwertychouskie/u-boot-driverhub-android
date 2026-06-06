@@ -234,10 +234,14 @@ int arch_cpu_init(void)
 	 * rk3399 is supported in drivers/devfreq/), so we do the bump here
 	 * in u-boot and the kernel inherits the faster DRAM transparently.
 	 *
+	 * MUST be u-boot-proper only: SPL runs before BL31 is loaded, so an
+	 * SMC there traps to a non-existent handler and synchronously aborts.
+	 *
 	 * Issued via inline SMC to avoid header-include ordering hazards.
 	 * Best-effort: if BL31 doesn't implement the SMC, x0 returns 0 and
 	 * we silently keep the TPL-trained 333 MHz.
 	 */
+#ifndef CONFIG_SPL_BUILD
 	{
 		register unsigned long x0 __asm__("x0") = 0x82000008UL; /* SIP_DRAM_FREQ */
 		register unsigned long x1 __asm__("x1") = 666000000UL;  /* target Hz */
@@ -251,6 +255,7 @@ int arch_cpu_init(void)
 				   "x10", "x11", "x12", "x13", "x14",
 				   "x15", "x16", "x17", "memory");
 	}
+#endif
 
 	/* Disable video phy bandgap by default */
 	writel(0x82, VIDEO_PHY_BASE + 0x0000);
