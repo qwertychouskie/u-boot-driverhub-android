@@ -36,6 +36,10 @@ CONFIG_USE_BOOTCOMMAND=y
 CONFIG_BOOTCOMMAND="run distro_bootcmd"
 CONFIG_SYS_CONSOLE_INFO_QUIET=y
 # CONFIG_DISPLAY_CPUINFO is not set
+# Android* off — we boot extlinux/distroboot. ANDROID_BOOT_IMAGE pulls in
+# android_fdt_overlay_apply usage in boot_rkimg.c that only resolves when
+# ANDROID_BOOTLOADER is also enabled, so leave both off.
+# CONFIG_ANDROID_BOOT_IMAGE is not set
 # CONFIG_ANDROID_BOOTLOADER is not set
 # CONFIG_ANDROID_AVB is not set
 CONFIG_SPL_STACK_R=y
