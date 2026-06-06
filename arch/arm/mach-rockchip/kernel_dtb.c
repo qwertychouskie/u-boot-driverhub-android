@@ -223,9 +223,7 @@ int init_kernel_dtb(void)
 	void *ufdt_blob;
 	int ret;
 
-	printf("init_kernel_dtb: enter\n");
 	fdt_addr = env_get_ulong("fdt_addr_r", 16, 0);
-	printf("init_kernel_dtb: fdt_addr_r=0x%lx\n", fdt_addr);
 	if (!fdt_addr) {
 		printf("No Found FDT Load Address.\n");
 		return -1;

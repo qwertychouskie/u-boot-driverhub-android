@@ -376,7 +376,6 @@ static void board_mtd_blk_map_partitions(void)
 
 int board_init(void)
 {
-	printf("board_init: enter\n");
 	board_debug_init();
 
 #ifdef DEBUG
@@ -387,9 +386,7 @@ int board_init(void)
 #ifdef CONFIG_MTD_BLK
 	board_mtd_blk_map_partitions();
 #endif
-	printf("board_init: about to call init_kernel_dtb\n");
 	init_kernel_dtb();
-	printf("board_init: init_kernel_dtb returned\n");
 #endif
 	early_download();
 
