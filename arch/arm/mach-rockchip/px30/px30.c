@@ -224,6 +224,34 @@ int arch_cpu_init(void)
 	/* Enable PD_VO (default disable at reset) */
 	rk_clrreg(PMU_PWRDN_CON, 1 << 13);
 
+	/*
+	 * Ramp DRAM 333 -> 664 MHz via BL31.
+	 *
+	 * Rockchip SiP function 0x82000008 / sub-function 0x01 retrains DRAM
+	 * to the requested rate (in Hz) while parking it in self-refresh —
+	 * the same path the vendor BSP rockchip_dmc devfreq driver uses for
+	 * runtime DVFS. Mainline kernel 6.18 has no PX30 dmc driver (only
+	 * rk3399 is supported in drivers/devfreq/), so we do the bump here
+	 * in u-boot and the kernel inherits the faster DRAM transparently.
+	 *
+	 * Issued via inline SMC to avoid header-include ordering hazards.
+	 * Best-effort: if BL31 doesn't implement the SMC, x0 returns 0 and
+	 * we silently keep the TPL-trained 333 MHz.
+	 */
+	{
+		register unsigned long x0 __asm__("x0") = 0x82000008UL; /* SIP_DRAM_FREQ */
+		register unsigned long x1 __asm__("x1") = 666000000UL;  /* target Hz */
+		register unsigned long x2 __asm__("x2") = 0UL;
+		register unsigned long x3 __asm__("x3") = 0x01UL;       /* SET_RATE */
+
+		__asm__ volatile("smc #0"
+				 : "+r"(x0), "+r"(x1), "+r"(x2), "+r"(x3)
+				 :
+				 : "x4", "x5", "x6", "x7", "x8", "x9",
+				   "x10", "x11", "x12", "x13", "x14",
+				   "x15", "x16", "x17", "memory");
+	}
+
 	/* Disable video phy bandgap by default */
 	writel(0x82, VIDEO_PHY_BASE + 0x0000);
 	writel(0x05, VIDEO_PHY_BASE + 0x03ac);
