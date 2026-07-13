@@ -45,9 +45,6 @@ DT_HEADER="""/*
 			arch = "arm64";
 			compression = "none";
 			load = <0x%08x>;
-			hash@1 {
-				algo = "crc32";
-			};
 		};
 """
 
@@ -74,9 +71,9 @@ def append_atf_node(file, atf_index, phy_addr):
     print('\t\t\tload = <0x%08x>;' % phy_addr, file=file)
     if atf_index == 1:
         print('\t\t\tentry = <0x%08x>;' % phy_addr, file=file)
-    print('\t\t\thash@1 {', file=file)
-    print('\t\t\t\talgo = "crc32";', file=file)
-    print('\t\t\t};', file=file)
+#    print('\t\t\thash@1 {', file=file)
+#    print('\t\t\t\talgo = "crc32";', file=file)
+#    print('\t\t\t};', file=file)
     print('\t\t};', file=file)
     print('', file=file)
 
@@ -93,9 +90,9 @@ def append_fdt_node(file, dtbs):
         print('\t\t\ttype = "flat_dt";', file=file)
         print('\t\t\tarch = "arm64";', file=file)
         print('\t\t\tcompression = "none";', file=file)
-        print('\t\t\thash@1 {', file=file)
-        print('\t\t\t\talgo = "crc32";', file=file)
-        print('\t\t\t};', file=file)
+#        print('\t\t\thash@1 {', file=file)
+#        print('\t\t\t\talgo = "crc32";', file=file)
+#        print('\t\t\t};', file=file)
         print('\t\t};', file=file)
         print('', file=file)
         cnt = cnt + 1
@@ -113,11 +110,11 @@ def append_conf_section(file, cnt, dtname, atf_cnt):
         else:
             print(';', file=file)
     print('\t\t\tfdt = "fdt@1";', file=file)
-    print('\t\t\tsignature@1 {', file=file)
-    print('\t\t\t\talgo = "crc32,rsa2048";', file=file)
-    print('\t\t\t\tkey-name-hint = "dev";', file=file)
-    print('\t\t\t\tsign-images = "fdt", "firmware", "loadables";', file=file)
-    print('\t\t\t};', file=file)
+#    print('\t\t\tsignature@1 {', file=file)
+#    print('\t\t\t\talgo = "crc32,rsa2048";', file=file)
+#    print('\t\t\t\tkey-name-hint = "dev";', file=file)
+#    print('\t\t\t\tsign-images = "fdt", "firmware", "loadables";', file=file)
+#    print('\t\t\t};', file=file)
     print('\t\t};', file=file)
     print('', file=file)
 
