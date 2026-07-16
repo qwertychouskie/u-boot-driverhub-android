@@ -80,7 +80,9 @@
 #endif
 
 /* rockchip ohci host driver */
+#if defined (CONFIG_USB_OHCI_HCD)
 #define CONFIG_USB_OHCI_NEW
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	1
+#endif
 
 #endif
