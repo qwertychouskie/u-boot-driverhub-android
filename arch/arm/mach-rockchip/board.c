@@ -297,15 +297,15 @@ int board_late_init(void)
 	rockchip_set_serialno();
 
 #ifdef CONFIG_RK8XX_PWRKEY
-    /* Modified by REV Robotics: Configure PMIC_PWRON_KEY register (0x00f7) of RK809 PMIC
+    /* Modified for Driver Hub: Configure PMIC_PWRON_KEY register (0x00f7) of RK809 PMIC
 
-       PWRON_ON_TIME        0 (power button must be held down 500ms before the device turns on)
+       PWRON_ON_TIME        1 (power button must be held down 100ms before the device turns on)
        PWRON_DB_SEL         3 (40ms debounce time for power button)
        All other bits are set to their default values */
 	struct udevice *p;
     int getResult = pmic_get("pmic@20", &p);
     if (getResult == 0) {
-        pmic_reg_write(p, 0x00f7, 0x07);
+        pmic_reg_write(p, 0x00f7, 0x87);
     }
 #endif /* CONFIG_RK8XX_PWRKEY */
 
