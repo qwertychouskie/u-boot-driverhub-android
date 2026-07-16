@@ -139,13 +139,25 @@
 	"fi; \0"
 #endif
 
+#if defined(CONFIG_CMD_BOOT_ANDROID)
+#define RKIMG_BOOT_ANDROID_CMD "boot_android ${devtype} ${devnum};"
+#else
+#define RKIMG_BOOT_ANDROID_CMD ""
+#endif
+
+#if defined(CONFIG_CMD_BOOT_ROCKCHIP)
+#define RKIMG_BOOT_RKP_CMD "bootrkp;"
+#else
+#define RKIMG_BOOT_RKP_CMD ""
+#endif
+
 #if defined(CONFIG_AVB_VBMETA_PUBLIC_KEY_VALIDATE)
 #define RKIMG_BOOTCOMMAND			\
 	"boot_android ${devtype} ${devnum};"
 #else
 #define RKIMG_BOOTCOMMAND			\
-	"boot_android ${devtype} ${devnum};"	\
-	"bootrkp;"				\
+	RKIMG_BOOT_ANDROID_CMD			\
+	RKIMG_BOOT_RKP_CMD			\
 	"run distro_bootcmd;"
 #endif
 
